@@ -24,7 +24,7 @@ public class ParkingLot {
             try {
                 throw new ParkingSlotNotAvailableException("Parking is Full");
             } catch (ParkingSlotNotAvailableException e) {
-                System.out.printf(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
         return slot;
@@ -58,7 +58,7 @@ public class ParkingLot {
             try {
                 throw new CarNotPresentException("Car not Present in this parking");
             } catch (CarNotPresentException e) {
-                System.out.printf(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
         return car ;
