@@ -1,26 +1,66 @@
 package main.parking;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParkingLot {
-    private static final int INT = 100;
     private Map<Integer,Car> parkingCatalog = new HashMap<>();
+    private List<Integer> freeSlotList = new ArrayList<>();
+    private int parkingSize;
 
-    public int park(Car car){
-        if(isAvailable()){
-            int slot = getEmptySlot();
-            parkingCatalog.put(slot, car);
-            return slot;
-        }
-        return -1;
+    ParkingLot(int parkingSize){
+        this.parkingSize = parkingSize;
     }
 
-    private boolean isAvailable(){
-        return parkingCatalog.size() < INT;
+    public int park(Car car){
+        int slot=0;
+        if(isParkingSlotAvailable()){
+            slot = getEmptySlot();
+            parkingCatalog.put(slot, car);
+        }
+        else{
+            try {
+                throw new ParkingSlotNotAvailableException("Parking is Full");
+            } catch (ParkingSlotNotAvailableException e) {
+                System.out.printf(e.getMessage());
+            }
+        }
+        return slot;
+    }
+
+    private boolean isParkingSlotAvailable(){
+        if(parkingCatalog.size() < parkingSize || freeSlotList.size() != 0)
+            return true;
+        else return false;
     }
 
     private int getEmptySlot() {
-        return parkingCatalog.size();
+        if(parkingCatalog.size() < parkingSize)
+            return parkingCatalog.size() + 1;
+        else {
+            int size = freeSlotList.size();
+            int slot = freeSlotList.get(size-1);
+            freeSlotList.remove(size-1);
+            return slot;
+        }
+    }
+
+    public Car takeCar(int slotNumber) {
+        Car car = null;
+        if(parkingCatalog.containsKey(slotNumber)){
+            freeSlotList.add(slotNumber);
+             car = parkingCatalog.get(slotNumber);
+            return car;
+        }
+        else{
+            try {
+                throw new CarNotPresentException("Car not Present in this parking");
+            } catch (CarNotPresentException e) {
+                System.out.printf(e.getMessage());
+            }
+        }
+        return car ;
     }
 }
