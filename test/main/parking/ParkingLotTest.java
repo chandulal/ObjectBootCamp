@@ -3,6 +3,9 @@ package main.parking;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingLotTest extends TestCase {
     public void testParkingLotWhenParkingSlotIsAvailable(){
         ParkingLot parkingLot = new ParkingLot(10);
@@ -36,5 +39,16 @@ public class ParkingLotTest extends TestCase {
         int receiptIdForI10 = parkingLot.park(i10);
         assertTrue(hondaCity.equals(parkingLot.takeCar(receiptIdForHondaCity)));
         assertTrue(i10.equals(parkingLot.takeCar(receiptIdForI10)));
+    }
+    public void testParkingLotIfParkingSlotAvailable(){
+        ParkingLot parkingLot1 = new ParkingLot(2);
+        ParkingLot parkingLot2 = new ParkingLot(5);
+        ArrayList<ParkingLot> parkingLotList = new ArrayList<>();
+        parkingLotList.add(parkingLot1);
+        parkingLotList.add(parkingLot2);
+        Car hondaCity = new Car("MH14-1234");
+        ParkingAttendant parkingAttendant = new ParkingAttendant(parkingLotList);
+        int receiptId = parkingAttendant.park(hondaCity);
+        assertTrue(receiptId > 0);
     }
 }

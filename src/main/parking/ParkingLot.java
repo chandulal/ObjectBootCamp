@@ -21,19 +21,13 @@ public class ParkingLot {
             parkingCatalog.put(slot, car);
         }
         else{
-            try {
-                throw new ParkingSlotNotAvailableException("Parking is Full");
-            } catch (ParkingSlotNotAvailableException e) {
-                System.out.println(e.getMessage());
-            }
+           return -1;
         }
         return slot;
     }
 
-    private boolean isParkingSlotAvailable(){
-        if(parkingCatalog.size() < parkingSize || freeSlotList.size() != 0)
-            return true;
-        else return false;
+    public boolean isParkingSlotAvailable(){
+        return parkingCatalog.size() < parkingSize || freeSlotList.size() != 0;
     }
 
     private int getEmptySlot() {
@@ -48,7 +42,7 @@ public class ParkingLot {
     }
 
     public Car takeCar(int slotNumber) {
-        Car car = null;
+        Car car;
         if(parkingCatalog.containsKey(slotNumber)){
             freeSlotList.add(slotNumber);
              car = parkingCatalog.get(slotNumber);
@@ -61,6 +55,6 @@ public class ParkingLot {
                 System.out.println(e.getMessage());
             }
         }
-        return car ;
+        return null;
     }
 }
